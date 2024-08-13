@@ -247,18 +247,18 @@ def insert_nmap_data(nmap_hosts, nmap_scan):
         ))
         host_id = cursor.lastrowid
 
-    for port in host['ports']:
-        cursor.execute(port_query, (
-            host_id,
-            port['port'],
-            port['protocol'],
-            port['status'],
-            port['service_name'],
-            port['service_info'],
-            port['http_title'],
-            port['ssl_common_name'],
-            port['ssl_issuer']
-        ))
+        for port in host['ports']:
+            cursor.execute(port_query, (
+                host_id,
+                port['port'],
+                port['protocol'],
+                port['status'],
+                port['service_name'],
+                port['service_info'],
+                port['http_title'],
+                port['ssl_common_name'],
+                port['ssl_issuer']
+            ))
 
     conn.commit()
     cursor.close()
