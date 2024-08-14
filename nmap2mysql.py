@@ -4,24 +4,21 @@
     Grégory Marendaz
 
 @description :
-    Port Scan Analyzer v1.0
-    Main Application
+    nmap2mysql : Main Application
 """
 
+from _lib import common
 from datetime import datetime
+from dotenv import load_dotenv
 import mysql.connector
 import os
 import subprocess
-import sys
 import xml.etree.ElementTree as ET
 
-def get_current_working_dir():
-    current_working_dir = os.getcwd()
-
-    return current_working_dir
+load_dotenv()
 
 def nmap_network_scan():
-    current_working_dir = get_current_working_dir()
+    current_working_dir = common.get_current_working_dir()
     nmap_command = f"nmap -sV -F --script=http-title,ssl-cert -oA {current_working_dir}/nmap/nmap_results -iL {current_working_dir}/nmap/subnet.txt"
     subprocess.run(nmap_command, shell = True, executable="/bin/bash")
 
@@ -177,10 +174,10 @@ def parse_nmap_xml(nmap_xml_file):
 
 def connect_nmap_database():
     conn = mysql.connector.connect(
-        host="localhost",
-        user="nmap",
-        password="nmap",
-        database="nmap"
+        host=os.getenv('MYSQL_HOST'),
+        user=os.getenv('MYSQL_USER'),
+        password=os.getenv('MYSQL_PASSWORD'),
+        database=os.getenv('MYSQL_DATABASE')
     )
     
     return conn
@@ -265,12 +262,12 @@ def insert_nmap_data(nmap_hosts, nmap_scan):
     conn.close()
 
 def delete_results():
-    current_working_dir = get_current_working_dir()
+    current_working_dir = common.get_current_working_dir()
     del_command = f"rm -f {current_working_dir}/nmap/nmap_results*"
     subprocess.run(del_command, shell = True, executable="/bin/bash")
 
-def main():
-    current_working_dir = get_current_working_dir()
+def nmap2mysql():
+    current_working_dir = common.get_current_working_dir()
     truncate_nmap_tables()
     nmap_network_scan()
     nmap_hosts, nmap_scan = parse_nmap_xml(f"{current_working_dir}/nmap/nmap_results.xml")
@@ -278,4 +275,4 @@ def main():
     delete_results()
 
 if __name__ == '__main__':
-    main()
+    nmap2mysql()
