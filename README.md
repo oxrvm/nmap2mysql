@@ -12,14 +12,19 @@ This tool is useful for network administrators and security professionals who ne
 
 ```
 └── nmap2mysql/
+    ├── _lib/
+    │   ├── __init__.py
+    │   └── common.py
     ├── bash/
     │   └── crontab.sh
     ├── mysql/
     │   └── SCHEMA.sql
     ├── nmap/
     │   └── subnet.txt
-    └── python/
-        └── nmap2mysql.py
+    ├── .env
+    ├── nmap2mysql.py
+    ├── LICENSE.md
+    └── README.md
 ```
 
 ## Requirements
@@ -27,7 +32,7 @@ This tool is useful for network administrators and security professionals who ne
 - Nmap
 - Miniconda3
 - Python 3.x
-- **mysql-connector-python** library
+- **mysql-connector-python** and **python-dotenv** libraries
 
 ## Installation
 
@@ -44,7 +49,7 @@ sudo apt-get install nmap -y
 ```
 3. Install MySQL server
 ```
-sudo apt-get mysql-server -y
+sudo apt-get install mysql-server -y
 sudo mysql -u root -p < mysql/SCHEMA.sql
 ```
 4. Install Miniconda3
@@ -55,23 +60,25 @@ bash Miniconda3-latest-Linux-x86_64.sh
 5. Create virtual environment
 ```
 conda create --name nmap2mysql -y
-conda install --name nmap2mysql mysql-connector-python -y
+conda install --name nmap2mysql mysql-connector-python python-dotenv -y
 conda activate nmap2mysql
 ```
 
 ### Configuration
 
-- Nmap command can be customized in **nmap2mysql.py** file in *nmap_network_scan()* function.
-- **subnet.txt** file can be modified to reflect the actual network architecture.
-- Nmap Python script can be automatized with crontab (**crontab.sh**).
+- Configure a Crontab schedule
+    - `sudo crontab -u username -e` : replace *username* by your current username.
+    - e.g. : `0 0 * * * bash /home/user/nmap2mysql/bash/crontab.sh`
+- Customize Nmap command in **nmap2mysql.py**.
+- Customize **subnet.txt** to reflect the actual network infrastructure.
 
 ## Usage
 
-The script is now functional from the command line : `python3 python/nmap2mysql.py`
+The script is now functional from the command line : `python3 nmap2mysql.py`
 
 ## Contribution
 
-Contributions are welcome!\
+Contributions are welcome !\
 Please fork the repository and create a pull request with your improvements.
 
 ## License
