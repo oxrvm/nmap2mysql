@@ -38,24 +38,24 @@ This tool is useful for network administrators and security professionals who ne
 
 ### Prerequisites
 
-1. Clone the repository
+1. Install Miniconda3
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+2. Clone the repository
 ```
 git clone https://github.com/oxrvm/nmap2mysql.git
 cd nmap2mysql
 ```
-2. Install Nmap
+3. Install Nmap
 ```
 sudo apt-get install nmap -y
 ```
-3. Install MySQL server
+4. Install MySQL server
 ```
 sudo apt-get install mysql-server -y
 sudo mysql -u root -p < mysql/SCHEMA.sql
-```
-4. Install Miniconda3
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
 ```
 5. Create virtual environment
 ```
@@ -67,8 +67,9 @@ conda activate nmap2mysql
 ### Configuration
 
 - Configure a Crontab schedule
-    - `sudo crontab -u username -e` : replace *username* by your current username.
-    - e.g. : `0 0 * * * bash /home/user/nmap2mysql/bash/crontab.sh`
+    - Replace _$HOME_ variable in **crontab.sh**
+    - `crontab -e`
+    - e.g. : `0 0 * * * /bin/bash /home/user/nmap2mysql/bash/crontab.sh`
 - Customize Nmap command in **nmap2mysql.py**.
 - Customize **subnet.txt** to reflect the actual network infrastructure.
 
