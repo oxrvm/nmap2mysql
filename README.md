@@ -12,9 +12,6 @@ This tool is useful for network administrators and security professionals who ne
 
 ```
 └── nmap2mysql/
-    ├── _lib/
-    │   ├── __init__.py
-    │   └── common.py
     ├── bash/
     │   └── crontab.sh
     ├── mysql/
@@ -23,6 +20,7 @@ This tool is useful for network administrators and security professionals who ne
     │   └── subnet.txt
     ├── .env
     ├── nmap2mysql.py
+    ├── install-dependencies
     ├── LICENSE.md
     └── README.md
 ```
@@ -30,46 +28,36 @@ This tool is useful for network administrators and security professionals who ne
 ## Requirements
 
 - Nmap
-- Miniconda3
 - Python 3.x
-- **mysql-connector-python** and **python-dotenv** libraries
 
 ## Installation
 
 ### Prerequisites
 
-1. Install Miniconda3
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-```
-2. Clone the repository
+1. Clone the repository
 ```
 git clone https://github.com/oxrvm/nmap2mysql.git
 cd nmap2mysql
 ```
-3. Install Nmap
+2. Install Nmap
 ```
 sudo apt-get install nmap -y
 ```
-4. Install MySQL server
+3. Install MySQL server
 ```
 sudo apt-get install mysql-server -y
 sudo mysql -u root -p < mysql/SCHEMA.sql
 ```
-5. Create virtual environment
+4. Create virtual environment
 ```
-conda create --name nmap2mysql -y
-conda install --name nmap2mysql mysql-connector-python python-dotenv -y
-conda activate nmap2mysql
+./install-dependencies
 ```
 
 ### Configuration
 
 - Configure a Crontab schedule
-    - Replace _$HOME_ variable in **crontab.sh**
     - `crontab -e`
-    - e.g. : `0 0 * * * /bin/bash /home/user/nmap2mysql/bash/crontab.sh`
+    - e.g. : `0 0 * * * /bin/bash /installation/path/nmap2mysql/bash/crontab.sh`
 - Customize Nmap command in **nmap2mysql.py**.
 - Customize **subnet.txt** to reflect the actual network infrastructure.
 
